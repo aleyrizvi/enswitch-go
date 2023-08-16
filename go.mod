@@ -1,3 +1,3 @@
-module github.com/aleyrizvi/enswitch-go/v1
+module github.com/aleyrizvi/enswitch-go
 
-go 1.20
+go 1.15
