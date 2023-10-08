@@ -1,12 +1,26 @@
 package enswitch
 
-var (
-	// Username is the enswitch username used globally without initiating client
-	Username string
-
-	// Password is the enswitch password used globally without initiating client
-	Password string
-
-	// BASEURL is the base endpoint of enswitch webserver. e.g: sip.enswitch.com
-	BASEURL string
+import (
+	"fmt"
+	"net/http"
 )
+
+// New returns Enswitch Client.
+func New(username, password, baseUrl string, httpClient *http.Client) *Client {
+	if httpClient == nil {
+		httpClient = http.DefaultClient
+	}
+
+	c := &Client{
+		httpClient: httpClient,
+		username:   username,
+		password:   password,
+		baseUrl:    fmt.Sprintf("https://%s/api/json/", baseUrl),
+	}
+
+	c.Customer = &Customer{
+		client: c,
+	}
+
+	return c
+}
