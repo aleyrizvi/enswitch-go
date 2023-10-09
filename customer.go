@@ -1,8 +1,10 @@
 package enswitch
 
-type billType string
-type customerListSort string
-type balanceTransactionType string
+type (
+	billType               string
+	customerListSort       string
+	balanceTransactionType string
+)
 
 const (
 	BillTypeCallShop        billType = "callshop"

@@ -10,24 +10,19 @@ import (
 
 type Client struct {
 	httpClient                  *http.Client
-	username, password, baseUrl string
+	username, password, baseURL string
 	Customer                    *Customer
 }
 
 func (c *Client) newRequest(ctx context.Context, uri string, qs url.Values) (*http.Request, error) {
-	u, err := url.Parse(c.baseUrl)
+	u, err := url.Parse(c.baseURL)
 	if err != nil {
-		return nil, ErrBadUrl
+		return nil, ErrBadURL
 	}
 
 	u.Path += uri
 
-	if ctx == nil {
-		ctx = context.Background()
-	}
-
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, u.String(), nil)
-
 	if err != nil {
 		return nil, ErrRequestWithContext
 	}
@@ -46,8 +41,8 @@ func (c *Client) call(req *http.Request, v interface{}) (*http.Response, error) 
 		return nil, ErrHTTPRequest
 	}
 
-	if !(res.StatusCode > 200) && !(res.StatusCode < 300) {
-		return nil, fmt.Errorf("server responded with error code: %d", res.StatusCode)
+	if res.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("server responded with error code: %w: %d", ErrHTTPRequest, res.StatusCode)
 	}
 
 	defer res.Body.Close()

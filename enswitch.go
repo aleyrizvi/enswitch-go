@@ -3,19 +3,26 @@ package enswitch
 import (
 	"fmt"
 	"net/http"
+	"time"
+)
+
+const (
+	defaultTimeOut = time.Minute
 )
 
 // New returns Enswitch Client.
-func New(username, password, baseUrl string, httpClient *http.Client) *Client {
+func New(username, password, baseURL string, httpClient *http.Client) *Client {
 	if httpClient == nil {
-		httpClient = http.DefaultClient
+		httpClient = &http.Client{
+			Timeout: defaultTimeOut,
+		}
 	}
 
 	c := &Client{
 		httpClient: httpClient,
 		username:   username,
 		password:   password,
-		baseUrl:    fmt.Sprintf("https://%s/api/json/", baseUrl),
+		baseURL:    fmt.Sprintf("https://%s/api/json/", baseURL),
 	}
 
 	c.Customer = &Customer{

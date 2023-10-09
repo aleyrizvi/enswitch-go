@@ -2,7 +2,6 @@ package enswitch
 
 import (
 	"context"
-	"fmt"
 	"net/url"
 )
 
@@ -21,15 +20,13 @@ type CustomerListParams struct {
 }
 
 func (c *Customer) List(ctx context.Context, input *CustomerListParams) {
-	req, err := c.client.newRequest(ctx, "customers/list", getCustomerListOptions(input))
+	_, err := c.client.newRequest(ctx, "customers/list", getCustomerListOptions(input))
 	if err != nil {
 		return
 	}
-
-	fmt.Println(req.URL.String())
 }
 
-func getCustomerListOptions(input *CustomerListParams) url.Values {
+func getCustomerListOptions(_ *CustomerListParams) url.Values {
 	var qs url.Values
 
 	return qs

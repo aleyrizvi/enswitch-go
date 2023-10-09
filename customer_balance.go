@@ -14,22 +14,22 @@ type CustomerBalanceParams struct {
 	Description *string
 }
 
-func (b *Customer) UpdateBalance(ctx context.Context, input CustomerBalanceParams) (*Response, error) {
+func (c *Customer) UpdateBalance(ctx context.Context, input CustomerBalanceParams) (*Response, error) {
 	qs := customerBalanceQueryParams(input)
 
-	req, err := b.client.newRequest(ctx, "customers/balance/add", qs)
-
+	req, err := c.client.newRequest(ctx, "customers/balance/add", qs)
 	if err != nil {
 		return nil, err
 	}
 
 	var response *Response
 
-	_, err = b.client.call(req, &response)
-
+	res, err := c.client.call(req, &response)
 	if err != nil {
 		return nil, err
 	}
+
+	defer res.Body.Close()
 
 	return response, nil
 }
@@ -45,11 +45,11 @@ func customerBalanceQueryParams(b CustomerBalanceParams) url.Values {
 	}
 
 	if b.Transaction != nil {
-		qs.Add("transaction", fmt.Sprintf("%s", *b.Transaction))
+		qs.Add("transaction", string(*b.Transaction))
 	}
 
 	if b.Description != nil {
-		qs.Add("description", fmt.Sprintf("%s", *b.Description))
+		qs.Add("description", *b.Description)
 	}
 
 	return qs
