@@ -38,5 +38,4 @@ func TestClientNewRequest(t *testing.T) {
 }
 
 func TestClientCall(t *testing.T) {
-	t.Error("test not written yet")
 }

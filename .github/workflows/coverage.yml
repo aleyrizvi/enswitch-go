@@ -22,5 +22,5 @@ jobs:
       - name: Display Go version
         run: go version
 
-      - name: run linter
+      - name: run coverage
         run: make coverage
