@@ -6,7 +6,7 @@ import (
 	"net/url"
 )
 
-type CustomerBalanceParams struct {
+type BalanceParams struct {
 	ID          uint32
 	Amount      float64
 	Currency    *string
@@ -14,17 +14,23 @@ type CustomerBalanceParams struct {
 	Description *string
 }
 
-func (c *Customer) UpdateBalance(ctx context.Context, input CustomerBalanceParams) (*Response, error) {
+type BalanceResponse Response
+
+type Balance struct {
+	client *Client
+}
+
+func (b *Balance) Update(ctx context.Context, input BalanceParams) (*BalanceResponse, error) {
 	qs := customerBalanceQueryParams(input)
 
-	req, err := c.client.newRequest(ctx, "customers/balance/add", qs)
+	req, err := b.client.newRequest(ctx, "customers/balance/add", qs)
 	if err != nil {
 		return nil, err
 	}
 
-	var response *Response
+	var response *BalanceResponse
 
-	res, err := c.client.call(req, &response)
+	res, err := b.client.call(req, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -34,7 +40,7 @@ func (c *Customer) UpdateBalance(ctx context.Context, input CustomerBalanceParam
 	return response, nil
 }
 
-func customerBalanceQueryParams(b CustomerBalanceParams) url.Values {
+func customerBalanceQueryParams(b BalanceParams) url.Values {
 	qs := url.Values{}
 
 	qs.Add("id", fmt.Sprintf("%v", b.ID))

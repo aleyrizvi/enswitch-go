@@ -15,6 +15,10 @@ type Client struct {
 }
 
 func (c *Client) newRequest(ctx context.Context, uri string, qs url.Values) (*http.Request, error) {
+	if ctx == nil {
+		return nil, ErrContextNil
+	}
+
 	u, err := url.Parse(c.baseURL)
 	if err != nil {
 		return nil, ErrBadURL

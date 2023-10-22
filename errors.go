@@ -7,4 +7,5 @@ var (
 	ErrHTTPRequest        = errors.New("unable to perform http request")
 	ErrBadURL             = errors.New("invalid base url")
 	ErrDecodingRequest    = errors.New("unable to decode")
+	ErrContextNil         = errors.New("context must not be nil")
 )

@@ -24,5 +24,6 @@ const (
 )
 
 type Customer struct {
-	client *Client
+	client  *Client
+	Balance *Balance
 }
