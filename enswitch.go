@@ -11,23 +11,19 @@ const (
 )
 
 // New returns Enswitch Client.
-func New(username, password, baseURL string, httpClient *http.Client) *Client {
-	if httpClient == nil {
-		httpClient = &http.Client{
-			Timeout: defaultTimeOut,
-		}
-	}
-
+func New(username, password, baseURL string) *Client {
 	c := &Client{
-		httpClient: httpClient,
-		username:   username,
-		password:   password,
-		baseURL:    fmt.Sprintf("https://%s/api/json/", baseURL),
+		httpClient: &http.Client{
+			Timeout: defaultTimeOut,
+		},
+		username: username,
+		password: password,
+		baseURL:  fmt.Sprintf("https://%s/api/json/", baseURL),
 	}
 
-	c.Customer = &Customer{
-		client: c,
-	}
+	balance := &Balance{client: c}
+
+	c.Customer = &Customer{client: c, Balance: balance}
 
 	return c
 }
