@@ -36,6 +36,3 @@ func TestClientNewRequest(t *testing.T) {
 		t.Error("error occured with query params")
 	}
 }
-
-func TestClientCall(t *testing.T) {
-}
