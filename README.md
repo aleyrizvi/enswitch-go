@@ -1,3 +1,4 @@
+![Main branch test status](https://github.com/aleyrizvi/enswitch-go/actions/workflows/test.yml/badge.svg?branch=main) ![Main branch lint status](https://github.com/aleyrizvi/enswitch-go/actions/workflows/golangci.yml/badge.svg?branch=main)
 # Go Enswitch
 
 The unofficial [Enswitch](https://integrics.com/enswitch/) Go client library.
