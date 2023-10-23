@@ -49,8 +49,6 @@ func (c *Client) call(req *http.Request, v interface{}) (*http.Response, error) 
 		return nil, fmt.Errorf("server responded with error code: %w: %d", ErrHTTPRequest, res.StatusCode)
 	}
 
-	defer res.Body.Close()
-
 	err = json.NewDecoder(res.Body).Decode(v)
 
 	if err != nil {

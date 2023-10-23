@@ -2,6 +2,7 @@ package enswitch
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"net/http"
 	"net/http/httptest"
@@ -36,19 +37,18 @@ func TestClientNewRequest(t *testing.T) {
 		}
 
 		req, err := client.newRequest(context.Background(), "/test", url.Values{})
-		if err != c.expectedError {
+		if !errors.Is(c.expectedError, err) {
 			t.Errorf("error occured while creating new request. Given %v, Got %v", c.expectedError, err)
 		}
 
 		q, err := url.ParseQuery(req.URL.RawQuery)
-		if err != nil {
+		if !errors.Is(nil, err) {
 			t.Errorf("error occured while parsing query params. Given %v, Got %v", c.expectedError, err)
 		}
 
 		if q.Get("auth_username") != testUsername || q.Get("auth_password") != testPassword {
 			t.Error("error occured with query params")
 		}
-
 	}
 }
 
@@ -88,10 +88,12 @@ func TestCall(t *testing.T) {
 
 		var response BalanceResponse
 
-		_, err = client.call(req, &response)
-		if err != c.expectedError {
+		res, err := client.call(req, &response)
+
+		if !errors.Is(err, c.expectedError) {
 			t.Errorf("error occured calling http method. Given %v, Got %v", c.expectedError, err)
 		}
+		defer res.Body.Close()
 
 		if response.Responses[0].Code != c.expectedCode {
 			t.Errorf("status code: given: %v, got: %v", c.expectedCode, response.Responses[0].Code)
