@@ -3,6 +3,7 @@ package enswitch
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"net/url"
 )
 
@@ -21,7 +22,7 @@ type Balance struct {
 }
 
 func (b *Balance) Update(ctx context.Context, input BalanceParams) (*BalanceResponse, error) {
-	qs := customerBalanceQueryParams(input)
+	qs := balanceQueryParam(input)
 
 	req, err := b.client.newRequest(ctx, "customers/balance/add", qs)
 	if err != nil {
@@ -35,12 +36,16 @@ func (b *Balance) Update(ctx context.Context, input BalanceParams) (*BalanceResp
 		return nil, err
 	}
 
+	if response.Responses[0].Code == http.StatusNotFound {
+		return nil, ErrNotFound
+	}
+
 	defer res.Body.Close()
 
 	return response, nil
 }
 
-func customerBalanceQueryParams(b BalanceParams) url.Values {
+func balanceQueryParam(b BalanceParams) url.Values {
 	qs := url.Values{}
 
 	qs.Add("id", fmt.Sprintf("%v", b.ID))

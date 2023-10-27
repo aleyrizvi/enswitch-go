@@ -11,7 +11,7 @@ import (
 type Client struct {
 	httpClient                  *http.Client
 	username, password, baseURL string
-	Customer                    *Customer
+	Customer                    *Customers
 }
 
 func (c *Client) newRequest(ctx context.Context, uri string, qs url.Values) (*http.Request, error) {

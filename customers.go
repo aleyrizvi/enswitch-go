@@ -23,7 +23,9 @@ const (
 	TransactionTypeTopUp  balanceTransactionType = "topup"
 )
 
-type Customer struct {
+type Customers struct {
 	client  *Client
 	Balance *Balance
 }
+
+func (c *Customers) Get() {}

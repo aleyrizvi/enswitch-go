@@ -23,7 +23,7 @@ func New(username, password, baseURL string) *Client {
 
 	balance := &Balance{client: c}
 
-	c.Customer = &Customer{client: c, Balance: balance}
+	c.Customer = &Customers{client: c, Balance: balance}
 
 	return c
 }

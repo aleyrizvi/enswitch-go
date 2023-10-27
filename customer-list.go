@@ -19,7 +19,7 @@ type CustomerListParams struct {
 	Recursive  *bool
 }
 
-func (c *Customer) List(ctx context.Context, input *CustomerListParams) {
+func (c *Customers) List(ctx context.Context, input *CustomerListParams) {
 	_, err := c.client.newRequest(ctx, "customers/list", getCustomerListOptions(input))
 	if err != nil {
 		return
