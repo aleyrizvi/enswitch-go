@@ -43,7 +43,7 @@ func TestBalance_Update(t *testing.T) {
 
 		res, err := balance.Update(context.Background(), c.input)
 
-		if errors.Is(err, c.errorExpected) {
+		if !errors.Is(err, c.errorExpected) {
 			t.Errorf("[balanceUpdate]: given %v, got %v", c.errorExpected, err)
 		}
 
