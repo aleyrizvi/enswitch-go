@@ -4,7 +4,7 @@
 The unofficial [Enswitch](https://integrics.com/enswitch/) Go client library.
 
 ## Requirements
-- Go 1.15 or later
+- Go 1.18 or later
 
 ## Installation
 
